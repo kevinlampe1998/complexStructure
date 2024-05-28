@@ -1,0 +1,55 @@
+const obj = {
+    dim1A: {
+        dim2A: {
+            arr: [1, 2, 3],
+            objKey: { a: "b" },
+        },
+    },
+    dim1B: {
+        dim2B: {
+            arr2: [{ objKey2: { objKey3: {} } }],
+        },
+    },
+};
+
+deepestValue(obj);
+
+function deepestValue(complexStruct) {
+    let arr = [];
+
+    if (complexStruct instanceof Object) {
+        for (let k in complexStruct) {
+            if (
+                complexStruct[k] instanceof Object ||
+                complexStruct[k] instanceof Array
+            ) {
+                arr.push(complexStruct[k]);
+            } else {
+                console.log(`No inner Dimensions exists, ${complexStruct[k]}`);
+            }
+        }
+    } else if (complexStruct instanceof Array) {
+        for (let e of complexStruct) {
+            if (
+                complexStruct[e] instanceof Object ||
+                complexStruct[e] instanceof Array
+            ) {
+                arr.push(complexStruct[e]);
+            } else {
+                console.log(`No inner Dimensions exists, ${complexStruct[e]}`);
+            }
+        }
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+    }
+
+    if (arr.length > 1) {
+        for (let i = 0; i < arr.length; i++) {
+            deepestValue(arr[i]);
+        }
+    } else if (arr[0] instanceof Object || arr[0] instanceof Array) {
+        deepestValue(arr[0]);
+    }
+}
